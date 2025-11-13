@@ -101,16 +101,16 @@ jobs:
             **ESign/GBox/Scarlet:**
             ```
             https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
+            ```
+            
+            **Add to ESign:**
+            ```
+            https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json
             ``````
             
-            **AltStore:**
-            ```
-            altstore://install?url=https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
-            ```            ```
-            
-            **Direct:** [📥 Download](https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa)
+            **Direct Download:** [📥 Click here](https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa)
       
-      - name: Update apps.json (ESign format)
+      - name: Update esign.json
         run: |
           python3 << 'PYTHON_SCRIPT'
           import json
@@ -141,18 +141,24 @@ jobs:
           # Current timestamp in ISO format
           version_date = datetime.now(timezone.utc).astimezone().isoformat()
           
-          # Read or create apps.json
+          # Read or create esign.json
           try:
-              with open('apps.json', 'r', encoding='utf-8') as f:
+              with open('esign.json', 'r', encoding='utf-8') as f:
                   data = json.load(f)
+                  print("✅ Found existing esign.json")
           except FileNotFoundError:
-              print("⚠️  apps.json not found, creating new one")
+              print("⚠️  esign.json not found, creating new one")
               data = {
-                  "name": "Hieudz",
-                  "identifier": "com.hieudz",
-                  "sourceURL": f"https://github.com/${{ github.repository }}/raw/refs/heads/main/apps.json",
+                  "name": "hieuitcz/ipa",
+                  "identifier": "com.hieuitcz.esign",
+                  "sourceURL": f"https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json",
                   "apps": []
               }
+          
+          # Ensure correct structure (in case file exists but has old format)
+          data["name"] = "hieuitcz/ipa"
+          data["identifier"] = "com.hieuitcz.esign"
+          data["sourceURL"] = f"https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json"
           
           # Create new app entry (ESign format)
           new_app = {
@@ -179,23 +185,24 @@ jobs:
               data['apps'][app_index] = new_app
               print(f"✅ Updated {app_name} to v{version}")
           else:
-              # Add new app
-              data['apps'].append(new_app)
+              # Add new app at the beginning
+              data['apps'].insert(0, new_app)
               print(f"✅ Added new app: {app_name} v{version}")
           
           # Save with proper formatting
-          with open('apps.json', 'w', encoding='utf-8') as f:
+          with open('esign.json', 'w', encoding='utf-8') as f:
               json.dump(data, f, indent=2, ensure_ascii=False)
           
-          print(f"📝 apps.json updated successfully")
+          print(f"📝 esign.json updated successfully")
           print(f"📊 Total apps: {len(data['apps'])}")
+          print(f"🔗 Source URL: {data['sourceURL']}")
           PYTHON_SCRIPT
       
       - name: Commit and push changes
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          git add apps.json
+          git add esign.json
           
           if git diff --staged --quiet; then
             echo "ℹ️  No changes to commit"
@@ -204,7 +211,78 @@ jobs:
 
           - Added/Updated ${{ inputs.app_name }} to v${{ inputs.version }}
           - Bundle ID: ${{ inputs.bundle_id }}
-          - Size: ${{ steps.size.outputs.size_mb }} MB"
+          - Size: ${{ steps.size.outputs.size_mb }} MB
+          - Updated esign.json"
             git push
             echo "✅ Changes pushed to repository"
+            echo "🔗 ESign source: https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json"
           fi
+```
+
+## File esign.json Sẽ Có Cấu Trúc
+
+```json```
+{
+  "name": "hieuitcz/ipa",
+  "identifier": "com.hieuitcz.esign",
+  "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
+  "apps": [
+    {
+      "name": "YouTube Premium",
+      "bundleIdentifier": "com.google.ios.youtube",
+      "developerName": "hieudz",
+      "version": "20.44.2",
+      "versionDate": "2025-11-14T00:23:00+01:00",
+      "versionDescription": "YouTube Plus v5.2b3\n\nAttempts to fix playback issues on sideload",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/youtube-premium-20.44.2/YouTube Premium-20.44.2.ipa",
+      "localizedDescription": "This version contains YouTube Plus, YouPiP, YTUHD, Return YouTube Dislikes and Open in Safari extension...",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/esign/refs/heads/main/icon/youtube.jpg",
+      "tintColor": "E36678",
+      "isLanZouCloud": 0,
+      "size": 115466859,
+      "type": 1
+    },
+    {
+      "name": "Aloha VPN",
+      "bundleIdentifier": "com.alohabrowser.vpn",
+      "developerName": "hieudz",
+      "version": "2.2.1",
+      "versionDate": "2025-11-14T00:23:00+01:00",
+      "versionDescription": "Aloha VPN Premium – Aloha VPN++ iPA by Lê Tí",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/aloha-vpn-2.2.1/Aloha VPN-2.2.1.ipa",
+      "localizedDescription": "Features:\n- Remove ads\n- Remove stories banner...",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/esign/refs/heads/main/icon/aloha.webp",
+      "tintColor": "AF38EB",
+      "isLanZouCloud": 0,
+      "size": 73615608,
+      "type": 1
+    }
+  ]
+}
+```
+
+## Những Thay Đổi
+
+### 1. **File Name**
+- ✅ `esign.json` (thay vì apps.json)
+- ✅ Tất cả references đã update
+
+### 2. **Fixed Header Structure**
+``````json
+{
+  "name": "hieuitcz/ipa",
+  "identifier": "com.hieuitcz.esign",
+  "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json"
+}
+```
+
+### 3. **sourceURL Dynamic**
+- Tự động generate dựa trên repository name
+- Nếu repo là `hieuitcz/ipa` → `https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json`
+
+### 4. **Auto-update Structure**
+- Mỗi lần run sẽ đảm bảo header structure đúng
+- Ngay cả khi file đã tồn tại với format cũ
+
+## Add Source vào ESign
+
