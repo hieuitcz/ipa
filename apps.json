@@ -7,19 +7,17 @@
     {
       "name": "YouTube Premium",
       "bundleIdentifier": "com.google.ios.youtube",
-      "developerName": "hieuitcz",
-      "subtitle": "Modified YouTube Premium",
-      "localizedDescription": "YouTube Premium - Modified version",
-      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/youtube-premium-20.44.2.png",
-      "versions": [
-        {
-          "version": "20.44.2",
-          "date": "2025-11-13",
-          "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/youtube-premium-20.44.2/YouTube Premium-20.44.2.ipa",
-          "size": 123530881,
-          "minOSVersion": "13.0"
-        }
-      ]
+      "developerName": "hieudz",
+      "version": "20.44.2",
+      "versionDate": "2025-11-13T23:15:21.970875+00:00",
+      "versionDescription": "Latest version",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/youtube-premium-20.44.2/YouTube Premium-20.44.2.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/esign/refs/heads/main/icon/youtube.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 123530881,
+      "type": 1
     }
   ]
 }
