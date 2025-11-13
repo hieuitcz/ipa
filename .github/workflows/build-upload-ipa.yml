@@ -27,43 +27,155 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
+      # THÊM BƯỚC NÀY: Sanitize tag name
+      - name: Generate valid tag name
+        id: sanitize
+        run: |
+          # Xóa spaces, chuyển thành hyphens, lowercase
+          SAFE_TAG=$(echo "${{ inputs.app_name }}-${{ inputs.version }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+          SAFE_FILENAME="${{ inputs.app_name }}-${{ inputs.version }}"
+          
+          echo "tag=$SAFE_TAG" >> $GITHUB_OUTPUT
+          echo "filename=$SAFE_FILENAME" >> $GITHUB_OUTPUT
+          
+          echo "✅ Tag name: $SAFE_TAG"
+          echo "✅ Filename: $SAFE_FILENAME"
+      
       - name: Download IPA
         run: |
-          curl -L "${{ inputs.ipa_url }}" -o "${{ inputs.app_name }}.ipa"
-          ls -lh "${{ inputs.app_name }}.ipa"
+          curl -L "${{ inputs.ipa_url }}" -o "app.ipa"
+          ls -lh "app.ipa"
       
       - name: Get IPA size
         id: size
         run: |
-          SIZE=$(stat -c%s "${{ inputs.app_name }}.ipa")
+          SIZE=$(stat -c%s "app.ipa")
+          SIZE_MB=$(echo "scale=2; $SIZE/1024/1024" | bc)
           echo "size=$SIZE" >> $GITHUB_OUTPUT
+          echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
+          echo "📦 Size: $SIZE_MB MB"
       
       - name: Upload to Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ inputs.app_name }}.ipa
-          asset_name: ${{ inputs.app_name }}-${{ inputs.version }}.ipa
-          tag: ${{ inputs.app_name }}-${{ inputs.version }}
+          file: app.ipa
+          asset_name: ${{ steps.sanitize.outputs.filename }}.ipa
+          tag: ${{ steps.sanitize.outputs.tag }}
+          release_name: ${{ inputs.app_name }} v${{ inputs.version }}
+          overwrite: true
           body: |
             **${{ inputs.app_name }}** v${{ inputs.version }}
-            Bundle ID: ${{ inputs.bundle_id }}
-            Size: ${{ steps.size.outputs.size }} bytes
+            
+            📦 **Size:** ${{ steps.size.outputs.size_mb }} MB
+            🔖 **Bundle ID:** ${{ inputs.bundle_id }}
+            📥 **Source:** ${{ inputs.ipa_url }}
+            📅 **Uploaded:** ${{ github.event.repository.updated_at }}
+            
+            ---
+            
+            ### 📲 Installation Methods
+            
+            **AltStore:**
+            ```
+            altstore://install?url=https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
+            ```
+            
+            **Feather:**
+            ```
+            apple-magnifier://install?url=https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
+            ```
+            
+            **TrollApps:**
+            ```
+            apple-magnifier://install?url=https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
+            ```
+            
+            **Direct Download:**
+            [📥 Download IPA](https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa)
       
       - name: Update apps.json
         run: |
-          # Script để tự động update apps.json với app mới
-          python3 update_json.py \
-            --name "${{ inputs.app_name }}" \
-            --version "${{ inputs.version }}" \
-            --bundle-id "${{ inputs.bundle_id }}" \
-            --download-url "https://github.com/${{ github.repository }}/releases/download/${{ inputs.app_name }}-${{ inputs.version }}/${{ inputs.app_name }}-${{ inputs.version }}.ipa" \
-            --size "${{ steps.size.outputs.size }}"
+          python3 << 'PYTHON_SCRIPT'
+          import json
+          import sys
+          from datetime import datetime
+          
+          # Read inputs
+          app_name = "${{ inputs.app_name }}"
+          version = "${{ inputs.version }}"
+          bundle_id = "${{ inputs.bundle_id }}"
+          size = int("${{ steps.size.outputs.size }}")
+          tag = "${{ steps.sanitize.outputs.tag }}"
+          filename = "${{ steps.sanitize.outputs.filename }}"
+          download_url = f"https://github.com/${{ github.repository }}/releases/download/{tag}/{filename}.ipa"
+          
+          # Read or create apps.json
+          try:
+              with open('apps.json', 'r', encoding='utf-8') as f:
+                  data = json.load(f)
+          except FileNotFoundError:
+              data = {
+                  "name": "${{ github.repository }}",
+                  "identifier": "com.${{ github.repository_owner }}.altstore",
+                  "subtitle": "Custom iOS Apps",
+                  "description": "Modified iOS applications",
+                  "apps": []
+              }
+          
+          # Create new version
+          new_version = {
+              "version": version,
+              "date": datetime.now().strftime("%Y-%m-%d"),
+              "downloadURL": download_url,
+              "size": size,
+              "minOSVersion": "13.0"
+          }
+          
+          # Find or create app
+          app = next((a for a in data['apps'] if a['bundleIdentifier'] == bundle_id), None)
+          
+          if app:
+              # Update existing app
+              app['versions'].insert(0, new_version)
+              # Keep only last 5 versions
+              app['versions'] = app['versions'][:5]
+              print(f"✅ Updated {app_name} to v{version}")
+          else:
+              # Create new app
+              data['apps'].append({
+                  "name": app_name,
+                  "bundleIdentifier": bundle_id,
+                  "developerName": "${{ github.repository_owner }}",
+                  "subtitle": f"Modified {app_name}",
+                  "localizedDescription": f"{app_name} - Modified version",
+                  "iconURL": f"https://raw.githubusercontent.com/${{ github.repository }}/main/icons/{tag}.png",
+                  "versions": [new_version]
+              })
+              print(f"✅ Added new app: {app_name} v{version}")
+          
+          # Save
+          with open('apps.json', 'w', encoding='utf-8') as f:
+              json.dump(data, f, indent=2, ensure_ascii=False)
+          
+          print(f"📝 apps.json updated successfully")
+          PYTHON_SCRIPT
       
       - name: Commit and push changes
         run: |
-          git config user.name "GitHub Actions"
+          git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add apps.json
-          git commit -m "Update apps.json with ${{ inputs.app_name }} v${{ inputs.version }}"
-          git push
+          
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes to commit"
+          else
+            git commit -m "🤖 Update ${{ inputs.app_name }} v${{ inputs.version }}
+
+          - Added/Updated ${{ inputs.app_name }} to v${{ inputs.version }}
+          - Bundle ID: ${{ inputs.bundle_id }}
+          - Size: ${{ steps.size.outputs.size_mb }} MB
+          - Tag: ${{ steps.sanitize.outputs.tag }}"
+            git push
+            echo "✅ Changes pushed successfully"
+          fi
