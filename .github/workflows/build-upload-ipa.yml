@@ -15,6 +15,21 @@ on:
       bundle_id:
         description: 'Bundle Identifier'
         required: true
+      description:
+        description: 'Version description (short)'
+        required: false
+        default: 'Latest version'
+      full_description:
+        description: 'Full app description'
+        required: false
+        default: 'Modified iOS application'
+      icon_url:
+        description: 'Icon URL (optional)'
+        required: false
+      tint_color:
+        description: 'Tint color hex (without #, e.g. E36678)'
+        required: false
+        default: 'FF6B35'
 
 permissions:
   contents: write
@@ -27,7 +42,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      # THÊM BƯỚC NÀY: Sanitize tag name
       - name: Generate valid tag name
         id: sanitize
         run: |
@@ -35,14 +49,19 @@ jobs:
           SAFE_TAG=$(echo "${{ inputs.app_name }}-${{ inputs.version }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
           SAFE_FILENAME="${{ inputs.app_name }}-${{ inputs.version }}"
           
+          # Generate icon filename
+          ICON_NAME=$(echo "${{ inputs.app_name }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+          
           echo "tag=$SAFE_TAG" >> $GITHUB_OUTPUT
           echo "filename=$SAFE_FILENAME" >> $GITHUB_OUTPUT
+          echo "icon_name=$ICON_NAME" >> $GITHUB_OUTPUT
           
-          echo "✅ Tag name: $SAFE_TAG"
+          echo "✅ Tag: $SAFE_TAG"
           echo "✅ Filename: $SAFE_FILENAME"
       
       - name: Download IPA
         run: |
+          echo "📥 Downloading from: ${{ inputs.ipa_url }}"
           curl -L "${{ inputs.ipa_url }}" -o "app.ipa"
           ls -lh "app.ipa"
       
@@ -53,7 +72,7 @@ jobs:
           SIZE_MB=$(echo "scale=2; $SIZE/1024/1024" | bc)
           echo "size=$SIZE" >> $GITHUB_OUTPUT
           echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
-          echo "📦 Size: $SIZE_MB MB"
+          echo "📦 Size: $SIZE_MB MB ($SIZE bytes)"
       
       - name: Upload to Release
         uses: svenstaro/upload-release-action@v2
@@ -72,34 +91,31 @@ jobs:
             📥 **Source:** ${{ inputs.ipa_url }}
             📅 **Uploaded:** ${{ github.event.repository.updated_at }}
             
+            **Description:**
+            ${{ inputs.description }}
+            
             ---
             
-            ### 📲 Installation Methods
+            ### 📲 Installation
+            
+            **ESign/GBox/Scarlet:**
+            ```
+            https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
+            ``````
             
             **AltStore:**
             ```
             altstore://install?url=https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
-            ```
+            ```            ```
             
-            **Feather:**
-            ```
-            apple-magnifier://install?url=https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
-            ```
-            
-            **TrollApps:**
-            ```
-            apple-magnifier://install?url=https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
-            ```
-            
-            **Direct Download:**
-            [📥 Download IPA](https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa)
+            **Direct:** [📥 Download](https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa)
       
-      - name: Update apps.json
+      - name: Update apps.json (ESign format)
         run: |
           python3 << 'PYTHON_SCRIPT'
           import json
           import sys
-          from datetime import datetime
+          from datetime import datetime, timezone
           
           # Read inputs
           app_name = "${{ inputs.app_name }}"
@@ -108,57 +124,71 @@ jobs:
           size = int("${{ steps.size.outputs.size }}")
           tag = "${{ steps.sanitize.outputs.tag }}"
           filename = "${{ steps.sanitize.outputs.filename }}"
+          icon_name = "${{ steps.sanitize.outputs.icon_name }}"
+          
+          version_desc = "${{ inputs.description }}"
+          full_desc = "${{ inputs.full_description }}"
+          tint_color = "${{ inputs.tint_color }}"
+          
+          # Generate URLs
           download_url = f"https://github.com/${{ github.repository }}/releases/download/{tag}/{filename}.ipa"
+          
+          # Icon URL - use provided or default
+          icon_url = "${{ inputs.icon_url }}"
+          if not icon_url or icon_url == "":
+              icon_url = f"https://raw.githubusercontent.com/${{ github.repository }}/main/icon/{icon_name}.jpg"
+          
+          # Current timestamp in ISO format
+          version_date = datetime.now(timezone.utc).astimezone().isoformat()
           
           # Read or create apps.json
           try:
               with open('apps.json', 'r', encoding='utf-8') as f:
                   data = json.load(f)
           except FileNotFoundError:
+              print("⚠️  apps.json not found, creating new one")
               data = {
-                  "name": "${{ github.repository }}",
-                  "identifier": "com.${{ github.repository_owner }}.altstore",
-                  "subtitle": "Custom iOS Apps",
-                  "description": "Modified iOS applications",
+                  "name": "Hieudz",
+                  "identifier": "com.hieudz",
+                  "sourceURL": f"https://github.com/${{ github.repository }}/raw/refs/heads/main/apps.json",
                   "apps": []
               }
           
-          # Create new version
-          new_version = {
+          # Create new app entry (ESign format)
+          new_app = {
+              "name": app_name,
+              "bundleIdentifier": bundle_id,
+              "developerName": "hieudz",
               "version": version,
-              "date": datetime.now().strftime("%Y-%m-%d"),
+              "versionDate": version_date,
+              "versionDescription": version_desc,
               "downloadURL": download_url,
+              "localizedDescription": full_desc,
+              "iconURL": icon_url,
+              "tintColor": tint_color,
+              "isLanZouCloud": 0,
               "size": size,
-              "minOSVersion": "13.0"
+              "type": 1
           }
           
-          # Find or create app
-          app = next((a for a in data['apps'] if a['bundleIdentifier'] == bundle_id), None)
+          # Find existing app by bundle ID
+          app_index = next((i for i, a in enumerate(data['apps']) if a['bundleIdentifier'] == bundle_id), None)
           
-          if app:
+          if app_index is not None:
               # Update existing app
-              app['versions'].insert(0, new_version)
-              # Keep only last 5 versions
-              app['versions'] = app['versions'][:5]
+              data['apps'][app_index] = new_app
               print(f"✅ Updated {app_name} to v{version}")
           else:
-              # Create new app
-              data['apps'].append({
-                  "name": app_name,
-                  "bundleIdentifier": bundle_id,
-                  "developerName": "${{ github.repository_owner }}",
-                  "subtitle": f"Modified {app_name}",
-                  "localizedDescription": f"{app_name} - Modified version",
-                  "iconURL": f"https://raw.githubusercontent.com/${{ github.repository }}/main/icons/{tag}.png",
-                  "versions": [new_version]
-              })
+              # Add new app
+              data['apps'].append(new_app)
               print(f"✅ Added new app: {app_name} v{version}")
           
-          # Save
+          # Save with proper formatting
           with open('apps.json', 'w', encoding='utf-8') as f:
               json.dump(data, f, indent=2, ensure_ascii=False)
           
           print(f"📝 apps.json updated successfully")
+          print(f"📊 Total apps: {len(data['apps'])}")
           PYTHON_SCRIPT
       
       - name: Commit and push changes
@@ -174,8 +204,7 @@ jobs:
 
           - Added/Updated ${{ inputs.app_name }} to v${{ inputs.version }}
           - Bundle ID: ${{ inputs.bundle_id }}
-          - Size: ${{ steps.size.outputs.size_mb }} MB
-          - Tag: ${{ steps.sanitize.outputs.tag }}"
+          - Size: ${{ steps.size.outputs.size_mb }} MB"
             git push
-            echo "✅ Changes pushed successfully"
+            echo "✅ Changes pushed to repository"
           fi
