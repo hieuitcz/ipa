@@ -1,0 +1,25 @@
+{
+  "name": "hieuitcz/ipa",
+  "identifier": "com.hieuitcz.altstore",
+  "subtitle": "Custom iOS Apps",
+  "description": "Modified iOS applications",
+  "apps": [
+    {
+      "name": "YouTube Premium",
+      "bundleIdentifier": "com.google.ios.youtube",
+      "developerName": "hieuitcz",
+      "subtitle": "Modified YouTube Premium",
+      "localizedDescription": "YouTube Premium - Modified version",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/youtube-premium-20.44.2.png",
+      "versions": [
+        {
+          "version": "20.44.2",
+          "date": "2025-11-13",
+          "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/youtube-premium-20.44.2/YouTube Premium-20.44.2.ipa",
+          "size": 123530881,
+          "minOSVersion": "13.0"
+        }
+      ]
+    }
+  ]
+}
