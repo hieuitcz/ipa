@@ -1,0 +1,69 @@
+name: Build and Upload IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      ipa_url:
+        description: 'Direct URL to IPA file'
+        required: true
+      app_name:
+        description: 'App name'
+        required: true
+      version:
+        description: 'Version number'
+        required: true
+      bundle_id:
+        description: 'Bundle Identifier'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  upload-ipa:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Download IPA
+        run: |
+          curl -L "${{ inputs.ipa_url }}" -o "${{ inputs.app_name }}.ipa"
+          ls -lh "${{ inputs.app_name }}.ipa"
+      
+      - name: Get IPA size
+        id: size
+        run: |
+          SIZE=$(stat -c%s "${{ inputs.app_name }}.ipa")
+          echo "size=$SIZE" >> $GITHUB_OUTPUT
+      
+      - name: Upload to Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ${{ inputs.app_name }}.ipa
+          asset_name: ${{ inputs.app_name }}-${{ inputs.version }}.ipa
+          tag: ${{ inputs.app_name }}-${{ inputs.version }}
+          body: |
+            **${{ inputs.app_name }}** v${{ inputs.version }}
+            Bundle ID: ${{ inputs.bundle_id }}
+            Size: ${{ steps.size.outputs.size }} bytes
+      
+      - name: Update apps.json
+        run: |
+          # Script để tự động update apps.json với app mới
+          python3 update_json.py \
+            --name "${{ inputs.app_name }}" \
+            --version "${{ inputs.version }}" \
+            --bundle-id "${{ inputs.bundle_id }}" \
+            --download-url "https://github.com/${{ github.repository }}/releases/download/${{ inputs.app_name }}-${{ inputs.version }}/${{ inputs.app_name }}-${{ inputs.version }}.ipa" \
+            --size "${{ steps.size.outputs.size }}"
+      
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add apps.json
+          git commit -m "Update apps.json with ${{ inputs.app_name }} v${{ inputs.version }}"
+          git push
