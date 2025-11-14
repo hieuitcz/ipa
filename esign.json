@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Instagram Rocket",
+      "bundleIdentifier": "com.burbn.instagram",
+      "developerName": "hieudz",
+      "version": "384.0.0",
+      "versionDate": "2025-11-14T02:03:02.104476+00:00",
+      "versionDescription": "Lưu ý :\n- Bản có chữ Cracked dành cho bạn nào chưa mua Rocket, bản không có chữ Cracked dành cho những bạn đã mua Rocket. \n- Sau khi đã tải bản Cracked về và cài đặt thành công.\n- Mở ứng dụng Instagram lên -> bấm vô biểu tượng hình người ở góc phải bên dưới -> bấm vô dấu 3 gạch ở góc phải bên trên -> Rocket Settings -> Upgrade Now! -> Restore Purchases.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/instagram-rocket-384.0.0/instagram.rocket-384.0.0.ipa",
+      "localizedDescription": "Features:\n- Remove ads\n- Remove stories banner\n- Remove 'People you may know'\n- Disable typing indicator\n- Read messages anonymously\n- Watch stories anonymously\n- Loop stories\n- Download stories\n- Remove 'Stories' tab\n- Remove 'Friends' tab\n- Remove AI circle\n- Require call confirmation",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/esign/refs/heads/main/icon/instagram.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 216970638,
+      "type": 1
+    },
+    {
       "name": "Locket Gold",
       "bundleIdentifier": "com.locket.Locket",
       "developerName": "hieudz",
