@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Spotify Music and Podcasts",
+      "bundleIdentifier": "com.spotify.client",
+      "developerName": "hieudz",
+      "version": "9.0.94",
+      "versionDate": "2025-11-14T01:52:38.747243+00:00",
+      "versionDescription": "Lưu ý: \n- Nếu tài khoản của bạn đã từng mua Spotify Premium, hãy tạo 1 tài khoản khác để sử dụng.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/spotify-music-and-podcasts-9.0.94/spotify.music.and.podcasts-9.0.94.ipa",
+      "localizedDescription": "Features:\n- Remove ads\n- Remove stories banner\n- Remove 'People you may know'\n- Disable typing indicator\n- Read messages anonymously\n- Watch stories anonymously\n- Loop stories\n- Download stories\n- Remove 'Stories' tab\n- Remove 'Friends' tab\n- Remove AI circle\n- Require call confirmation",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/esign/refs/heads/main/icon/spotify.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 117871865,
+      "type": 1
+    },
+    {
       "name": "YouTube Music Ultimate",
       "bundleIdentifier": "com.google.ios.youtubemusic",
       "developerName": "hieudz",
