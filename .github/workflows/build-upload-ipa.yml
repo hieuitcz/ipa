@@ -1,8 +1,6 @@
 
 ## Workflow Đã Fix Hoàn Chỉnh
-
-``````yaml
-name: Build and Upload IPA
+name: Build and Upload IPA Final
 
 on:
   workflow_dispatch:
