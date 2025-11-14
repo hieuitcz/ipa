@@ -1,0 +1,222 @@
+name: Build and Upload IPA
+
+on:
+  workflow_dispatch:
+    inputs:
+      ipa_url:
+        description: 'Direct URL to IPA file'
+        required: true
+      app_name:
+        description: 'App name'
+        required: true
+      version:
+        description: 'Version number'
+        required: true
+      bundle_id:
+        description: 'Bundle Identifier'
+        required: true
+      description:
+        description: 'Version description (short)'
+        required: false
+        default: 'Latest version'
+      full_description:
+        description: 'Full app description'
+        required: false
+        default: 'Modified iOS application'
+      icon_url:
+        description: 'Icon URL (optional)'
+        required: false
+      tint_color:
+        description: 'Tint color hex (without #, e.g. E36678)'
+        required: false
+        default: 'FF6B35'
+
+permissions:
+  contents: write
+
+jobs:
+  upload-ipa:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Generate valid names
+        id: sanitize
+        run: |
+          # Tạo tag (lowercase, no spaces, hyphen)
+          SAFE_TAG=$(echo "${{ inputs.app_name }}-${{ inputs.version }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+          
+          # Tạo filename CŨNG KHÔNG CÓ SPACE (dùng dot thay space hoặc hyphen)
+          # Option 1: Dùng dot (YouTube.Premium-20.44.3.ipa)
+          SAFE_FILENAME=$(echo "${{ inputs.app_name }}" | tr ' ' '.' | tr '[:upper:]' '[:lower:]')-${{ inputs.version }}
+          
+          # Option 2: Dùng hyphen (youtube-premium-20.44.3.ipa)
+          # SAFE_FILENAME=$(echo "${{ inputs.app_name }}-${{ inputs.version }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+          
+          # Generate icon filename
+          ICON_NAME=$(echo "${{ inputs.app_name }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+          
+          echo "tag=$SAFE_TAG" >> $GITHUB_OUTPUT
+          echo "filename=$SAFE_FILENAME" >> $GITHUB_OUTPUT
+          echo "icon_name=$ICON_NAME" >> $GITHUB_OUTPUT
+          
+          echo "✅ Tag: $SAFE_TAG"
+          echo "✅ Filename: $SAFE_FILENAME"
+          echo "✅ Icon name: $ICON_NAME"
+      
+      - name: Download IPA
+        run: |
+          echo "📥 Downloading from: ${{ inputs.ipa_url }}"
+          curl -L -H "Accept: application/octet-stream" \
+               -o "app.ipa" "${{ inputs.ipa_url }}"
+          ls -lh "app.ipa"
+      
+      - name: Get IPA size
+        id: size
+        run: |
+          SIZE=$(stat -c%s "app.ipa")
+          SIZE_MB=$(echo "scale=2; $SIZE/1024/1024" | bc)
+          echo "size=$SIZE" >> $GITHUB_OUTPUT
+          echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
+          echo "📦 Size: $SIZE_MB MB ($SIZE bytes)"
+      
+      - name: Upload to Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: app.ipa
+          asset_name: ${{ steps.sanitize.outputs.filename }}.ipa
+          tag: ${{ steps.sanitize.outputs.tag }}
+          release_name: ${{ inputs.app_name }} v${{ inputs.version }}
+          overwrite: true
+          body: |
+            **${{ inputs.app_name }}** v${{ inputs.version }}
+            
+            📦 **Size:** ${{ steps.size.outputs.size_mb }} MB
+            🔖 **Bundle ID:** ${{ inputs.bundle_id }}
+            📥 **Source:** ${{ inputs.ipa_url }}
+            
+            **Description:**
+            ${{ inputs.description }}
+            
+            ---
+            
+            ### 📥 Direct Download
+            ```
+            https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
+            ``````
+            
+            ### 📲 Add to ESign
+            ```
+            https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json
+            ```            ```
+      
+      - name: Update esign.json
+        run: |
+          python3 << 'EOF'
+          import json
+          from datetime import datetime, timezone
+          
+          # Read inputs
+          app_name = "${{ inputs.app_name }}"
+          version = "${{ inputs.version }}"
+          bundle_id = "${{ inputs.bundle_id }}"
+          size = int("${{ steps.size.outputs.size }}")
+          tag = "${{ steps.sanitize.outputs.tag }}"
+          filename = "${{ steps.sanitize.outputs.filename }}"
+          icon_name = "${{ steps.sanitize.outputs.icon_name }}"
+          
+          version_desc = "${{ inputs.description }}"
+          full_desc = "${{ inputs.full_description }}"
+          tint_color = "${{ inputs.tint_color }}"
+          
+          # Generate URLs - DÙNG FILENAME ĐÃ SANITIZE
+          download_url = f"https://github.com/${{ github.repository }}/releases/download/{tag}/{filename}.ipa"
+          
+          # Icon URL
+          icon_url = "${{ inputs.icon_url }}"
+          if not icon_url:
+              icon_url = f"https://raw.githubusercontent.com/${{ github.repository }}/main/icons/{icon_name}.jpg"
+          
+          # Current timestamp
+          version_date = datetime.now(timezone.utc).astimezone().isoformat()
+          
+          # Read or create esign.json
+          try:
+              with open('esign.json', 'r', encoding='utf-8') as f:
+                  data = json.load(f)
+              print("✅ Found esign.json")
+          except:
+              data = {
+                  "name": "hieuitcz/ipa",
+                  "identifier": "com.hieuitcz.esign",
+                  "sourceURL": f"https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json",
+                  "apps": []
+              }
+              print("⚠️  Created new esign.json")
+          
+          # Ensure structure
+          data["name"] = "hieuitcz/ipa"
+          data["identifier"] = "com.hieuitcz.esign"
+          data["sourceURL"] = f"https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json"
+          
+          # Create app entry
+          new_app = {
+              "name": app_name,
+              "bundleIdentifier": bundle_id,
+              "developerName": "hieudz",
+              "version": version,
+              "versionDate": version_date,
+              "versionDescription": version_desc,
+              "downloadURL": download_url,
+              "localizedDescription": full_desc,
+              "iconURL": icon_url,
+              "tintColor": tint_color,
+              "isLanZouCloud": 0,
+              "size": size,
+              "type": 1
+          }
+          
+          # Update or add
+          idx = next((i for i, a in enumerate(data['apps']) if a['bundleIdentifier'] == bundle_id), None)
+          
+          if idx is not None:
+              data['apps'][idx] = new_app
+              print(f"✅ Updated {app_name}")
+          else:
+              data['apps'].insert(0, new_app)
+              print(f"✅ Added {app_name}")
+          
+          # Save
+          with open('esign.json', 'w', encoding='utf-8') as f:
+              json.dump(data, f, indent=2, ensure_ascii=False)
+          
+          print(f"📝 Total apps: {len(data['apps'])}")
+          print(f"🔗 Download URL: {download_url}")
+          EOF
+      
+      - name: Commit and push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add esign.json
+          
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes"
+          else
+            git commit -m "🤖 Update ${{ inputs.app_name }} v${{ inputs.version }}
+
+          - Size: ${{ steps.size.outputs.size_mb }} MB
+          - Bundle: ${{ inputs.bundle_id }}
+          - File: ${{ steps.sanitize.outputs.filename }}.ipa"
+            git push
+            echo "✅ Pushed to repository"
+            echo ""
+            echo "🔗 ESign source:"
+            echo "https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json"
+            echo ""
+            echo "📥 Download URL:"
+            echo "https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa"
+          fi
