@@ -1,0 +1,228 @@
+name: Upload Any File
+
+on:
+workflow_dispatch:
+inputs:
+file_url:
+description: 'Direct URL to file'
+required: true
+type: string
+file_name:
+description: 'File name (with extension, e.g. app.ipa, icon.png)'
+required: true
+type: string
+folder_path:
+description: 'Folder path (e.g. ipa, icons, files) - leave empty for root'
+required: false
+type: string
+default: ''
+upload_method:
+description: 'Upload method'
+required: true
+type: choice
+options:
+- 'commit-to-repo'
+- 'github-release'
+- 'both'
+default: 'commit-to-repo'
+release_tag:
+description: 'Release tag (only for github-release or both)'
+required: false
+type: string
+description:
+description: 'File description (optional)'
+required: false
+type: string
+
+permissions:
+contents: write
+
+jobs:
+upload:
+runs-on: ubuntu-latest
+
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+  
+  - name: Sanitize inputs
+    id: sanitize
+    run: |
+      # Sanitize folder path (remove leading/trailing slashes)
+      FOLDER="${{ inputs.folder_path }}"
+      FOLDER=$(echo "$FOLDER" | sed 's:^/*::; s:/*$::')
+      
+      # Sanitize tag (nếu có)
+      TAG="${{ inputs.release_tag }}"
+      if [ -z "$TAG" ]; then
+        # Tạo tag từ filename nếu không có
+        TAG=$(echo "${{ inputs.file_name }}" | sed 's/\.[^.]*$//' | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+        TAG="${TAG}-$(date +%Y%m%d-%H%M%S)"
+      fi
+      
+      echo "folder=$FOLDER" >> $GITHUB_OUTPUT
+      echo "tag=$TAG" >> $GITHUB_OUTPUT
+      
+      echo "✅ Folder: ${FOLDER:-root}"
+      echo "✅ Tag: $TAG"
+  
+  - name: Download file
+    run: |
+      echo "📥 Downloading from: ${{ inputs.file_url }}"
+      
+      # Download với retry
+      for i in {1..3}; do
+        curl -L -H "Accept: application/octet-stream" \
+             --fail --connect-timeout 30 --max-time 300 \
+             -o "temp_file" "${{ inputs.file_url }}" && break || {
+          echo "⚠️  Retry $i/3..."
+          sleep 5
+        }
+      done
+      
+      if [ ! -f "temp_file" ]; then
+        echo "❌ Download failed"
+        exit 1
+      fi
+      
+      # Show file info
+      echo "📦 Downloaded file:"
+      file temp_file
+      ls -lh temp_file
+  
+  - name: Get file info
+    id: info
+    run: |
+      SIZE=$(stat -c%s "temp_file")
+      SIZE_MB=$(echo "scale=2; $SIZE/1024/1024" | bc)
+      SIZE_KB=$(echo "scale=2; $SIZE/1024" | bc)
+      
+      # Get file type
+      FILE_TYPE=$(file -b temp_file)
+      
+      echo "size=$SIZE" >> $GITHUB_OUTPUT
+      echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
+      echo "size_kb=$SIZE_KB" >> $GITHUB_OUTPUT
+      echo "file_type=$FILE_TYPE" >> $GITHUB_OUTPUT
+      
+      echo "📦 Size: $SIZE_MB MB ($SIZE bytes)"
+      echo "📄 Type: $FILE_TYPE"
+  
+  - name: Commit to repository
+    if: inputs.upload_method == 'commit-to-repo' || inputs.upload_method == 'both'
+    run: |
+      FOLDER="${{ steps.sanitize.outputs.folder }}"
+      
+      # Tạo thư mục nếu cần
+      if [ -n "$FOLDER" ]; then
+        mkdir -p "$FOLDER"
+        TARGET_PATH="$FOLDER/${{ inputs.file_name }}"
+      else
+        TARGET_PATH="${{ inputs.file_name }}"
+      fi
+      
+      # Move file
+      mv temp_file "$TARGET_PATH"
+      
+      echo "✅ File moved to: $TARGET_PATH"
+      ls -lh "$TARGET_PATH"
+      
+      # Create/update index
+      if [ -n "$FOLDER" ]; then
+        cat > "$FOLDER/index.txt" << EOF
+      Files in $FOLDER:
+      ================
+      $(ls -lh "$FOLDER")
+      
+      Last updated: $(date -u +"%Y-%m-%d %H:%M UTC")
+      EOF
+      fi
+      
+      # Git commit
+      git config user.name "GitHub Actions"
+      git config user.email "actions@github.com"
+      
+      git add "$TARGET_PATH"
+      git add "$FOLDER/index.txt" 2>/dev/null || true
+      
+      if git diff --staged --quiet; then
+        echo "ℹ️  No changes to commit"
+      else
+        git commit -m "📁 Upload ${{ inputs.file_name }}
+
+      - Path: $TARGET_PATH
+      - Size: ${{ steps.info.outputs.size_mb }} MB
+      - Type: ${{ steps.info.outputs.file_type }}
+      - Source: ${{ inputs.file_url }}"
+        
+        git push
+        echo "✅ Committed to repository"
+        
+        # Generate URLs
+        if [ -n "$FOLDER" ]; then
+          RAW_URL="https://raw.githubusercontent.com/${{ github.repository }}/main/$FOLDER/${{ inputs.file_name }}"
+          BLOB_URL="https://github.com/${{ github.repository }}/blob/main/$FOLDER/${{ inputs.file_name }}"
+        else
+          RAW_URL="https://raw.githubusercontent.com/${{ github.repository }}/main/${{ inputs.file_name }}"
+          BLOB_URL="https://github.com/${{ github.repository }}/blob/main/${{ inputs.file_name }}"
+        fi
+        
+        echo ""
+        echo "🔗 Raw URL (direct download):"
+        echo "$RAW_URL"
+        echo ""
+        echo "🔗 View on GitHub:"
+        echo "$BLOB_URL"
+      fi
+  
+  - name: Upload to Release
+    if: inputs.upload_method == 'github-release' || inputs.upload_method == 'both'
+    uses: svenstaro/upload-release-action@v2
+    with:
+      repo_token: ${{ secrets.GITHUB_TOKEN }}
+      file: temp_file
+      asset_name: ${{ inputs.file_name }}
+      tag: ${{ steps.sanitize.outputs.tag }}
+      release_name: ${{ inputs.file_name }}
+      overwrite: true
+      body: |
+        📁 **${{ inputs.file_name }}**
+        
+        📦 Size: ${{ steps.info.outputs.size_mb }} MB
+        📄 Type: ${{ steps.info.outputs.file_type }}
+        📥 Source: ${{ inputs.file_url }}
+        
+        ${{ inputs.description }}
+        
+        ---
+        
+        ### 📥 Download
+        https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ inputs.file_name }}
+  
+  - name: Summary
+    run: |
+      echo "✅ Upload completed!"
+      echo ""
+      echo "📋 Summary:"
+      echo "- File: ${{ inputs.file_name }}"
+      echo "- Size: ${{ steps.info.outputs.size_mb }} MB"
+      echo "- Method: ${{ inputs.upload_method }}"
+      
+      if [ "${{ inputs.upload_method }}" = "commit-to-repo" ] || [ "${{ inputs.upload_method }}" = "both" ]; then
+        FOLDER="${{ steps.sanitize.outputs.folder }}"
+        if [ -n "$FOLDER" ]; then
+          echo ""
+          echo "🔗 Repository URL:"
+          echo "https://raw.githubusercontent.com/${{ github.repository }}/main/$FOLDER/${{ inputs.file_name }}"
+        else
+          echo ""
+          echo "🔗 Repository URL:"
+          echo "https://raw.githubusercontent.com/${{ github.repository }}/main/${{ inputs.file_name }}"
+        fi
+      fi
+      
+      if [ "${{ inputs.upload_method }}" = "github-release" ] || [ "${{ inputs.upload_method }}" = "both" ]; then
+        echo ""
+        echo "🔗 Release URL:"
+        echo "https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ inputs.file_name }}"
+      fi
