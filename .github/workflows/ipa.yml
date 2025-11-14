@@ -316,3 +316,4 @@ jobs:
           git add ipa/*.json
           git commit -m "📝 Add metadata for ${{ inputs.app_name }}" || true
           git push
+```
