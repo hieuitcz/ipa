@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Meitu- Photo & Video Editor",
+      "bundleIdentifier": "com.meitu.mtxx",
+      "developerName": "hieudz",
+      "version": "11.25.0",
+      "versionDate": "2025-11-14T02:05:54.291071+00:00",
+      "versionDescription": "Latest version",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/meitu--photo-&-video-editor-11.25.0/meitu-.photo.&.video.editor-11.25.0.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/74/ee/98/74ee9872-f79b-7f9a-0ca2-fa08fa2022c9/AppIcon-0-0-1x_U007emarketing-0-9-0-85-220.png/100x100bb.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 297375045,
+      "type": 1
+    },
+    {
       "name": "Instagram Rocket",
       "bundleIdentifier": "com.burbn.instagram",
       "developerName": "hieudz",
