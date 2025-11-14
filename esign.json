@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "YouTube Music Ultimate",
+      "bundleIdentifier": "com.google.ios.youtubemusic",
+      "developerName": "hieudz",
+      "version": "8.44",
+      "versionDate": "2025-11-14T01:47:35.079601+00:00",
+      "versionDescription": "YouTube Music Ultimate v2.3.1\n\n- Fixed downloads tab not working\n- Fixed local network permissions",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/youtube-music-ultimate-8.44/youtube.music.ultimate-8.44.ipa",
+      "localizedDescription": "Features:\n- Download audios, cover images\n- Remove ads\n- Background playback\n- Interface customization: Remove tabs or other elements, enable OLED mode\n- Player settings: Modify player elements, default playback mode\n- Built-in SponsorBlock\n- And much, much more\n\nYouTube Music Ultimate preferences can be found under YouTube Music settings",
+      "iconURL": "https://raw.githubusercontent.com/dayanch96/YTMusicUltimate/refs/heads/main/Resources/icon.png",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 97625320,
+      "type": 1
+    },
+    {
       "name": "Aloha VPN",
       "bundleIdentifier": "com.alohabrowser.vpn",
       "developerName": "hieudz",
