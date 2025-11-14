@@ -1,4 +1,4 @@
-name: Build and Upload IPA
+name: Build and Upload IPA final
 
 on:
   workflow_dispatch:
