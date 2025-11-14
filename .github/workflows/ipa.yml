@@ -1,0 +1,247 @@
+name: Upload IPA to Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      ipa_url:
+        description: 'Direct URL to IPA file'
+        required: true
+        type: string
+      app_name:
+        description: 'App Name (e.g. YouTube Premium)'
+        required: true
+        type: string
+      version:
+        description: 'Version (e.g. 20.44.2)'
+        required: true
+        type: string
+      bundle_id:
+        description: 'Bundle Identifier (for metadata)'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Sanitize filename
+        id: sanitize
+        run: |
+          # Tạo tên file và tag hợp lệ (không có space, lowercase)
+          SAFE_NAME=$(echo "${{ inputs.app_name }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+          SAFE_TAG="${SAFE_NAME}-${{ inputs.version }}"
+          FILE_NAME="${{ inputs.app_name }}-${{ inputs.version }}"
+          
+          echo "safe_name=$SAFE_NAME" >> $GITHUB_OUTPUT
+          echo "safe_tag=$SAFE_TAG" >> $GITHUB_OUTPUT
+          echo "file_name=$FILE_NAME" >> $GITHUB_OUTPUT
+          
+          echo "✅ Safe name: $SAFE_NAME"
+          echo "✅ Safe tag: $SAFE_TAG"
+          echo "✅ File name: $FILE_NAME"
+      
+      - name: Download IPA
+        run: |
+          echo "📥 Downloading from: ${{ inputs.ipa_url }}"
+          curl -L -H "Accept: application/octet-stream" \
+               -o "temp.ipa" "${{ inputs.ipa_url }}"
+          
+          # Verify it's a valid IPA (ZIP file)
+          if ! file temp.ipa | grep -q "Zip archive"; then
+            echo "❌ Downloaded file is not a valid IPA"
+            file temp.ipa
+            exit 1
+          fi
+          
+          ls -lh temp.ipa
+      
+      - name: Get IPA info
+        id: info
+        run: |
+          SIZE=$(stat -c%s "temp.ipa")
+          SIZE_MB=$(echo "scale=2; $SIZE/1024/1024" | bc)
+          echo "size=$SIZE" >> $GITHUB_OUTPUT
+          echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
+          echo "📦 Size: $SIZE_MB MB ($SIZE bytes)"
+      
+      - name: Create ipa directory if not exists
+        run: |
+          mkdir -p ipa
+          echo "✅ Created/verified ipa directory"
+      
+      - name: Move IPA to directory
+        run: |
+          mv temp.ipa "ipa/${{ steps.sanitize.outputs.file_name }}.ipa"
+          ls -lh ipa/
+          echo "✅ Moved IPA to ipa/${{ steps.sanitize.outputs.file_name }}.ipa"
+      
+      - name: Create/Update metadata file
+        run: |
+          # Tạo metadata.json trong thư mục ipa/
+          cat > "ipa/${{ steps.sanitize.outputs.safe_name }}.json" << EOF
+          {
+            "name": "${{ inputs.app_name }}",
+            "version": "${{ inputs.version }}",
+            "bundleId": "${{ inputs.bundle_id }}",
+            "fileName": "${{ steps.sanitize.outputs.file_name }}.ipa",
+            "size": ${{ steps.info.outputs.size }},
+            "sizeMB": "${{ steps.info.outputs.size_mb }}",
+            "uploadDate": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "downloadURL": "https://raw.githubusercontent.com/${{ github.repository }}/main/ipa/${{ steps.sanitize.outputs.file_name }}.ipa"
+          }
+          EOF
+          
+          cat "ipa/${{ steps.sanitize.outputs.safe_name }}.json"
+          echo "✅ Created metadata file"
+      
+      - name: Update index
+        run: |
+          # Tạo hoặc update file index.json với danh sách tất cả apps
+          python3 << 'EOF'
+          import json
+          import os
+          from datetime import datetime
+          
+          index_file = "ipa/index.json"
+          
+          # Read existing index or create new
+          try:
+              with open(index_file, 'r') as f:
+                  index = json.load(f)
+          except:
+              index = {"apps": [], "lastUpdated": ""}
+          
+          # New app entry
+          app_entry = {
+              "name": "${{ inputs.app_name }}",
+              "safeName": "${{ steps.sanitize.outputs.safe_name }}",
+              "version": "${{ inputs.version }}",
+              "bundleId": "${{ inputs.bundle_id }}",
+              "fileName": "${{ steps.sanitize.outputs.file_name }}.ipa",
+              "size": ${{ steps.info.outputs.size }},
+              "sizeMB": "${{ steps.info.outputs.size_mb }}",
+              "uploadDate": datetime.utcnow().isoformat() + "Z",
+              "downloadURL": f"https://raw.githubusercontent.com/${{ github.repository }}/main/ipa/${{ steps.sanitize.outputs.file_name }}.ipa",
+              "metadataURL": f"https://raw.githubusercontent.com/${{ github.repository }}/main/ipa/${{ steps.sanitize.outputs.safe_name }}.json"
+          }
+          
+          # Update or add app
+          existing_idx = next((i for i, a in enumerate(index["apps"]) if a.get("safeName") == "${{ steps.sanitize.outputs.safe_name }}"), None)
+          
+          if existing_idx is not None:
+              index["apps"][existing_idx] = app_entry
+              print(f"✅ Updated existing app: ${{ inputs.app_name }}")
+          else:
+              index["apps"].insert(0, app_entry)
+              print(f"✅ Added new app: ${{ inputs.app_name }}")
+          
+          index["lastUpdated"] = datetime.utcnow().isoformat() + "Z"
+          
+          # Save index
+          with open(index_file, 'w') as f:
+              json.dump(index, f, indent=2)
+          
+          print(f"📊 Total apps in index: {len(index['apps'])}")
+          EOF
+          
+          echo "✅ Updated index.json"
+      
+      - name: Create README (optional)
+        run: |
+          cat > ipa/README.md << 'EOF'
+          # IPA Repository
+          
+          This directory contains iOS IPA files for sideloading.
+          
+          ## Available Apps
+          
+          See [index.json](index.json) for the complete list of available apps.
+          
+          ## Download
+          
+          Direct download URLs:
+          ```
+          https://raw.githubusercontent.com/${{ github.repository }}/main/ipa/<filename>.ipa
+          ```
+          
+          ## Usage with Git LFS (Recommended for large files)
+          
+          If IPAs are larger than 100MB, consider using Git LFS:
+          ```
+          git lfs track "*.ipa"
+          git add .gitattributes
+          ```
+          
+          Last updated: $(date -u +"%Y-%m-%d %H:%M UTC")
+          EOF
+          
+          echo "✅ Created README.md"
+      
+      - name: Commit and push
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          # Add all files in ipa directory
+          git add ipa/
+          
+          echo "📋 Files to commit:"
+          git diff --staged --name-only
+          
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes to commit"
+          else
+            git commit -m "📦 Add ${{ inputs.app_name }} v${{ inputs.version }}
+
+            - File: ${{ steps.sanitize.outputs.file_name }}.ipa
+            - Size: ${{ steps.info.outputs.size_mb }} MB
+            - Bundle ID: ${{ inputs.bundle_id }}
+            - Source: ${{ inputs.ipa_url }}"
+            
+            git push
+            echo "✅ Changes pushed to repository"
+            
+            echo "📥 Download URL:"
+            echo "https://raw.githubusercontent.com/${{ github.repository }}/main/ipa/${{ steps.sanitize.outputs.file_name }}.ipa"
+          fi
+      
+      - name: Create Release (Optional)
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: ipa/${{ steps.sanitize.outputs.file_name }}.ipa
+          asset_name: ${{ steps.sanitize.outputs.file_name }}.ipa
+          tag: ${{ steps.sanitize.outputs.safe_tag }}
+          release_name: ${{ inputs.app_name }} v${{ inputs.version }}
+          overwrite: true
+          body: |
+            **${{ inputs.app_name }}** v${{ inputs.version }}
+            
+            📦 **Size:** ${{ steps.info.outputs.size_mb }} MB
+            🔖 **Bundle ID:** ${{ inputs.bundle_id }}
+            📥 **Source:** ${{ inputs.ipa_url }}
+            
+            ### 📥 Download Options
+            
+            **Direct (Raw):**
+            ```
+            https://raw.githubusercontent.com/${{ github.repository }}/main/ipa/${{ steps.sanitize.outputs.file_name }}.ipa
+            ```
+            
+            **Release Asset:**
+            ```
+            https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.safe_tag }}/${{ steps.sanitize.outputs.file_name }}.ipa
+            ```
+            
+            ### 📲 Install with ESign
+            Add this source:
+            ```
+            https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json
+            ```
