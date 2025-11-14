@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "DLiPA",
+      "bundleIdentifier": "com.dlipa.client",
+      "developerName": "hieudz",
+      "version": "1.0",
+      "versionDate": "2025-11-14T23:49:30+00:00",
+      "versionDescription": "DLiPA là một ứng dụng iOS lấy cảm hứng từ dự án ipatool. Ứng dụng cho phép người dùng tải về, cài đặt và chia sẻ các ứng dụng trên App Store bằng Apple ID của họ, hỗ trợ cả việc tải phiên bản cũ — không cần jailbreak.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/dlipa-1.0/dlipa-1.0.ipa",
+      "localizedDescription": "DLiPA là một ứng dụng iOS lấy cảm hứng từ dự án ipatool. Ứng dụng cho phép người dùng tải về, cài đặt và chia sẻ các ứng dụng trên App Store bằng Apple ID của họ, hỗ trợ cả việc tải phiên bản cũ — không cần jailbreak.",
+      "iconURL": "https://ios.codevn.net/wp-content/uploads/2025/06/DLiPA.png",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 480247,
+      "type": 1
+    },
+    {
       "name": "LiveContainer",
       "bundleIdentifier": "com.LiveContainer.client",
       "developerName": "hieudz",
