@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "AnkiMobile Flashcards",
+      "bundleIdentifier": "net.ichi2.anki",
+      "developerName": "hieudz",
+      "version": "25.09",
+      "versionDate": "2025-11-14T02:08:48.832671+00:00",
+      "versionDescription": "Latest version",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/ankimobile-flashcards-25.09/ankimobile.flashcards-25.09.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/30/6b/da/306bdac5-3088-c97f-c682-e4626bfc6b43/AppIcon-0-0-1x_U007emarketing-0-5-0-85-220.png/200x200ia-75.webp",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 45315033,
+      "type": 1
+    },
+    {
       "name": "Meitu- Photo & Video Editor",
       "bundleIdentifier": "com.meitu.mtxx",
       "developerName": "hieudz",
