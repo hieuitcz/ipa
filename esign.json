@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Mondly - Learn 41 Languages",
+      "bundleIdentifier": "com.atistudios.MondlyLanguages",
+      "developerName": "hieudz",
+      "version": "10.62.0",
+      "versionDate": "2025-11-14T02:10:52.564165+00:00",
+      "versionDescription": "- Mondly Premium – Mondly++ iPA by Lê Tí – iOS CodeVN.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/mondly---learn-41-languages-10.62.0/mondly.-.learn.41.languages-10.62.0.ipa",
+      "localizedDescription": "Features:\n- Remove ads\n- Remove stories banner\n- Remove 'People you may know'\n- Disable typing indicator\n- Read messages anonymously\n- Watch stories anonymously\n- Loop stories\n- Download stories\n- Remove 'Stories' tab\n- Remove 'Friends' tab\n- Remove AI circle\n- Require call confirmation",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/esign/refs/heads/main/icon/mondly.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 197779962,
+      "type": 1
+    },
+    {
       "name": "AnkiMobile Flashcards",
       "bundleIdentifier": "net.ichi2.anki",
       "developerName": "hieudz",
