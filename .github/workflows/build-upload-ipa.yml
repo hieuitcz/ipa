@@ -1,3 +1,7 @@
+
+## Workflow Đã Fix Hoàn Chỉnh
+
+``````yaml
 name: Build and Upload IPA
 
 on:
@@ -40,16 +44,18 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       
-      - name: Generate valid tag name
+      - name: Generate valid names
         id: sanitize
         run: |
-          # Xóa spaces, chuyển thành hyphens, lowercase
+          # Tag: lowercase, no spaces
           SAFE_TAG=$(echo "${{ inputs.app_name }}-${{ inputs.version }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
-          SAFE_FILENAME="${{ inputs.app_name }}-${{ inputs.version }}"
           
-          # Generate icon filename
+          # Filename: no spaces (dùng hyphen)
+          SAFE_FILENAME=$(echo "${{ inputs.app_name }}-${{ inputs.version }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
+          
+          # Icon name
           ICON_NAME=$(echo "${{ inputs.app_name }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
           
           echo "tag=$SAFE_TAG" >> $GITHUB_OUTPUT
@@ -61,9 +67,18 @@ jobs:
       
       - name: Download IPA
         run: |
-          echo "📥 Downloading from: ${{ inputs.ipa_url }}"
-          curl -L "${{ inputs.ipa_url }}" -o "app.ipa"
-          ls -lh "app.ipa"
+          echo "📥 Downloading: ${{ inputs.ipa_url }}"
+          curl -L -H "Accept: application/octet-stream" \
+               -o "app.ipa" "${{ inputs.ipa_url }}"
+          
+          # Verify it's a ZIP/IPA
+          if ! file app.ipa | grep -q "Zip archive"; then
+            echo "❌ Not a valid IPA"
+            file app.ipa
+            exit 1
+          fi
+          
+          ls -lh app.ipa
       
       - name: Get IPA size
         id: size
@@ -72,7 +87,7 @@ jobs:
           SIZE_MB=$(echo "scale=2; $SIZE/1024/1024" | bc)
           echo "size=$SIZE" >> $GITHUB_OUTPUT
           echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
-          echo "📦 Size: $SIZE_MB MB ($SIZE bytes)"
+          echo "📦 Size: $SIZE_MB MB"
       
       - name: Upload to Release
         uses: svenstaro/upload-release-action@v2
@@ -86,38 +101,27 @@ jobs:
           body: |
             **${{ inputs.app_name }}** v${{ inputs.version }}
             
-            📦 **Size:** ${{ steps.size.outputs.size_mb }} MB
-            🔖 **Bundle ID:** ${{ inputs.bundle_id }}
-            📥 **Source:** ${{ inputs.ipa_url }}
-            📅 **Uploaded:** ${{ github.event.repository.updated_at }}
+            📦 Size: ${{ steps.size.outputs.size_mb }} MB
+            🔖 Bundle ID: ${{ inputs.bundle_id }}
+            📥 Source: ${{ inputs.ipa_url }}
             
-            **Description:**
-            ${{ inputs.description }}
+            **Description:** ${{ inputs.description }}
             
             ---
             
-            ### 📲 Installation
-            
-            **ESign/GBox/Scarlet:**
-            ```
+            ### 📥 Direct Download
             https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa
-            ```
             
-            **Add to ESign:**
-            ```
+            ### 📲 Add to ESign
             https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json
-            ``````
-            
-            **Direct Download:** [📥 Click here](https://github.com/${{ github.repository }}/releases/download/${{ steps.sanitize.outputs.tag }}/${{ steps.sanitize.outputs.filename }}.ipa)
       
       - name: Update esign.json
         run: |
-          python3 << 'PYTHON_SCRIPT'
+          python3 << 'EOF'
           import json
-          import sys
           from datetime import datetime, timezone
           
-          # Read inputs
+          # Inputs
           app_name = "${{ inputs.app_name }}"
           version = "${{ inputs.version }}"
           bundle_id = "${{ inputs.bundle_id }}"
@@ -130,37 +134,36 @@ jobs:
           full_desc = "${{ inputs.full_description }}"
           tint_color = "${{ inputs.tint_color }}"
           
-          # Generate URLs
+          # URLs
           download_url = f"https://github.com/${{ github.repository }}/releases/download/{tag}/{filename}.ipa"
           
-          # Icon URL - use provided or default
           icon_url = "${{ inputs.icon_url }}"
-          if not icon_url or icon_url == "":
-              icon_url = f"https://raw.githubusercontent.com/${{ github.repository }}/main/icon/{icon_name}.jpg"
+          if not icon_url:
+              icon_url = f"https://raw.githubusercontent.com/${{ github.repository }}/main/icons/{icon_name}.jpg"
           
-          # Current timestamp in ISO format
-          version_date = datetime.now(timezone.utc).astimezone().isoformat()
+          # ✅ FIX: Format datetime KHÔNG CÓ MICROSECONDS
+          version_date = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
           
           # Read or create esign.json
           try:
               with open('esign.json', 'r', encoding='utf-8') as f:
                   data = json.load(f)
-                  print("✅ Found existing esign.json")
-          except FileNotFoundError:
-              print("⚠️  esign.json not found, creating new one")
+              print("✅ Found esign.json")
+          except:
               data = {
                   "name": "hieuitcz/ipa",
                   "identifier": "com.hieuitcz.esign",
                   "sourceURL": f"https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json",
                   "apps": []
               }
+              print("⚠️  Created new esign.json")
           
-          # Ensure correct structure (in case file exists but has old format)
+          # Ensure structure
           data["name"] = "hieuitcz/ipa"
           data["identifier"] = "com.hieuitcz.esign"
           data["sourceURL"] = f"https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json"
           
-          # Create new app entry (ESign format)
+          # Create app entry
           new_app = {
               "name": app_name,
               "bundleIdentifier": bundle_id,
@@ -177,30 +180,28 @@ jobs:
               "type": 1
           }
           
-          # Find existing app by bundle ID
-          app_index = next((i for i, a in enumerate(data['apps']) if a['bundleIdentifier'] == bundle_id), None)
+          # Update or add
+          idx = next((i for i, a in enumerate(data['apps']) if a['bundleIdentifier'] == bundle_id), None)
           
-          if app_index is not None:
-              # Update existing app
-              data['apps'][app_index] = new_app
-              print(f"✅ Updated {app_name} to v{version}")
+          if idx is not None:
+              data['apps'][idx] = new_app
+              print(f"✅ Updated {app_name} v{version}")
           else:
-              # Add new app at the beginning
               data['apps'].insert(0, new_app)
-              print(f"✅ Added new app: {app_name} v{version}")
+              print(f"✅ Added {app_name} v{version}")
           
-          # Save with proper formatting
+          # Save
           with open('esign.json', 'w', encoding='utf-8') as f:
               json.dump(data, f, indent=2, ensure_ascii=False)
           
-          print(f"📝 esign.json updated successfully")
-          print(f"📊 Total apps: {len(data['apps'])}")
-          print(f"🔗 Source URL: {data['sourceURL']}")
-          PYTHON_SCRIPT
+          print(f"📝 Total apps: {len(data['apps'])}")
+          print(f"📅 Version date: {version_date}")
+          print(f"🔗 Download: {download_url}")
+          EOF
       
-      - name: Commit and push changes
+      - name: Commit and push
         run: |
-          git config user.name "GitHub Actions Bot"
+          git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
           git add esign.json
           
@@ -209,11 +210,11 @@ jobs:
           else
             git commit -m "🤖 Update ${{ inputs.app_name }} v${{ inputs.version }}
 
-          - Added/Updated ${{ inputs.app_name }} to v${{ inputs.version }}
-          - Bundle ID: ${{ inputs.bundle_id }}
           - Size: ${{ steps.size.outputs.size_mb }} MB
-          - Updated esign.json"
+          - Bundle: ${{ inputs.bundle_id }}"
             git push
-            echo "✅ Changes pushed to repository"
-            echo "🔗 ESign source: https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json"
+            echo "✅ Pushed to repository"
+            echo ""
+            echo "🔗 ESign source:"
+            echo "https://raw.githubusercontent.com/${{ github.repository }}/main/esign.json"
           fi
