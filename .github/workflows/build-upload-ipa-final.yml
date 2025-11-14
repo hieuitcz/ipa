@@ -48,6 +48,10 @@ jobs:
           # Tạo tag (lowercase, no spaces, hyphen)
           SAFE_TAG=$(echo "${{ inputs.app_name }}-${{ inputs.version }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
           
+          # Tạo filename CŨNG KHÔNG CÓ SPACE (dùng dot thay space hoặc hyphen)
+          # Option 1: Dùng dot (YouTube.Premium-20.44.3.ipa)
+          SAFE_FILENAME=$(echo "${{ inputs.app_name }}" | tr ' ' '.' | tr '[:upper:]' '[:lower:]')-${{ inputs.version }}
+          
           # Option 2: Dùng hyphen (youtube-premium-20.44.3.ipa)
           # SAFE_FILENAME=$(echo "${{ inputs.app_name }}-${{ inputs.version }}" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')
           
