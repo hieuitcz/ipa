@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "LiveContainer",
+      "bundleIdentifier": "com.LiveContainer.client",
+      "developerName": "hieudz",
+      "version": "3.6.1",
+      "versionDate": "2025-11-14T23:28:50+00:00",
+      "versionDescription": "Latest version",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/livecontainer-3.6.1/livecontainer-3.6.1.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/LiveContainer/LiveContainer/refs/heads/main/screenshots/livecontainer_icon.png",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 4232092,
+      "type": 1
+    },
+    {
       "name": "BHTikTok++",
       "bundleIdentifier": "com.zhiliaoapp.musically",
       "developerName": "hieudz",
