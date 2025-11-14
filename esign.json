@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Facebook",
+      "bundleIdentifier": "com.facebook.Facebook",
+      "developerName": "hieudz",
+      "version": "538.1",
+      "versionDate": "2025-11-14T01:54:56.649876+00:00",
+      "versionDescription": "Glow v1.3.1\n- Faster video re-encoding by improved audio processing\n- Added support for Turkish language",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/facebook-538.1/facebook-538.1.ipa",
+      "localizedDescription": "Features:\n- Download whatever you like — videos, images, Reels, and even stories\n- Stay unseen. View stories and mark them as seen only when you want to\n- Worried about accidental likes? Now you can relax\n- Flexible, intuitive settings — all tailored to you\n\nGlow settings are available via long press on any tab",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/esign/refs/heads/main/icon/facebook.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 168358753,
+      "type": 1
+    },
+    {
       "name": "Spotify Music and Podcasts",
       "bundleIdentifier": "com.spotify.client",
       "developerName": "hieudz",
