@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "BHTikTok++",
+      "bundleIdentifier": "com.zhiliaoapp.musically",
+      "developerName": "hieudz",
+      "version": "38.3.0",
+      "versionDate": "2025-11-14T02:14:11.656272+00:00",
+      "versionDescription": "- BHTikTok++ iPA by By iOSGods.com.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/bhtiktok++-38.3.0/bhtiktok++-38.3.0.ipa",
+      "localizedDescription": "Features:\n- Remove ads\n- Remove stories banner\n- Remove 'People you may know'\n- Disable typing indicator\n- Read messages anonymously\n- Watch stories anonymously\n- Loop stories\n- Download stories\n- Remove 'Stories' tab\n- Remove 'Friends' tab\n- Remove AI circle\n- Require call confirmation",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/esign/refs/heads/main/icon/tiktok.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 362621931,
+      "type": 1
+    },
+    {
       "name": "Mondly - Learn 41 Languages",
       "bundleIdentifier": "com.atistudios.MondlyLanguages",
       "developerName": "hieudz",
