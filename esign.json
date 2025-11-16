@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Minecraft",
+      "bundleIdentifier": "com.mojang.minecraftpe",
+      "developerName": "hieudz",
+      "version": "1.21.123",
+      "versionDate": "2025-11-16T20:36:16+00:00",
+      "versionDescription": "Minecraft là một trong những tựa game nổi tiếng nhất trên thế giới, và hiện nay đã có mặt trên hầu hết các nền tảng, bao gồm cả iOS. Trò chơi này được phát triển bởi Mojang Studios, một công ty con của Microsoft, và được phát hành lần đầu vào năm 2011.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/minecraft-1.21.123/minecraft-1.21.123.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/refs/heads/main/icon/81gsSy5r13L.png",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 596392258,
+      "type": 1
+    },
+    {
       "name": "Hitman GO",
       "bundleIdentifier": "com.squareenixmontreal.hitmango",
       "developerName": "hieudz",
