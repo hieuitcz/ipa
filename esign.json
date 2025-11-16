@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Hitman GO",
+      "bundleIdentifier": "com.squareenixmontreal.hitmango",
+      "developerName": "hieudz",
+      "version": "1.16",
+      "versionDate": "2025-11-16T20:02:23+00:00",
+      "versionDescription": "Latest version",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/hitman-go-1.16/hitman-go-1.16.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/refs/heads/main/icon/Hitman-GO.png",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 527726805,
+      "type": 1
+    },
+    {
       "name": "DLiPA",
       "bundleIdentifier": "com.dlipa.client",
       "developerName": "hieudz",
