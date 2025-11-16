@@ -1,0 +1,12 @@
+--2025-11-16 20:12:36--  https://upload.wikimedia.org/wikipedia/en/e/e8/Hitman_go_logo.png
+Resolving upload.wikimedia.org (upload.wikimedia.org)... 208.80.154.240, 2620:0:861:ed1a::2:b
+Connecting to upload.wikimedia.org (upload.wikimedia.org)|208.80.154.240|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 60659 (59K) [image/png]
+Saving to: ‘Hitman_go_logo.png’
+
+     0K .......... .......... .......... .......... .......... 84% 1.75M 0s
+    50K .........                                             100% 18.0M=0.03s
+
+2025-11-16 20:12:36 (2.04 MB/s) - ‘Hitman_go_logo.png’ saved [60659/60659]
+
