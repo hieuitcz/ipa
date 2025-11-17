@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Facebook No Ads",
+      "bundleIdentifier": "com.facebook.Facebooknoads",
+      "developerName": "hieudz",
+      "version": "513.0",
+      "versionDate": "2025-11-17T01:24:24+00:00",
+      "versionDescription": "acebook No Ads iPA sử dụng Facebook No Ads của Hao Nguyen (haoict) và P2KDev.  Facebook No Ads có một số chức năng như sau:  Gỡ quảng cáo: gỡ quảng cáo ở News Feed và Video. Tải video (hiện tại chưa hỗ trợ tải Reels): ấn giữ vào video để lưu. Tải story : nhấn vào nút download ở phía dưới bên phải để tải. Đối với story nào có bình luận anh em bấm giữ vào story để nó mất cái bình luận sau đó bấm tải. Tắt đã xem story: xem story mà người kia không biết.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/facebook-no-ads-513.0/facebook-no-ads-513.0.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/facebook-no-ads.png",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 167005280,
+      "type": 1
+    },
+    {
       "name": "FileBrowser Professional",
       "bundleIdentifier": "com.stratospherix.filebrowserbiz",
       "developerName": "hieudz",
