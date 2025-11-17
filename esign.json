@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Facebook Wolf",
+      "bundleIdentifier": "com.facebook.Wolf",
+      "developerName": "hieudz",
+      "version": "513.0",
+      "versionDate": "2025-11-17T01:31:20+00:00",
+      "versionDescription": "Facebook Wolf iPA sử dụng Wolf for Facebook bởi Michael và fix login bởi opa334.  Facebook Wolf brings a number of new features to Facebook such as:  Disable Marking Messages Disable Tying Status Disable Marking Stories Disable Auto-Advance in Stories No Facebook Story Ads No Facebook Feed Ads Save Feed videos by long-pressing the video Tải bản Clone để cài song song.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/facebook-wolf-513.0/facebook-wolf-513.0.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/facebook-wolf.png",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 170808423,
+      "type": 1
+    },
+    {
       "name": "Facebook No Ads",
       "bundleIdentifier": "com.facebook.Facebooknoads",
       "developerName": "hieudz",
