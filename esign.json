@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "FileBrowser – Document Manager",
+      "bundleIdentifier": "com.stratospherix.filebrowser",
+      "developerName": "hieudz",
+      "version": "25.12",
+      "versionDate": "2025-11-17T00:12:54+00:00",
+      "versionDescription": "FileBrowser: Documents Manager là ứng dụng quản lý tệp chuyên sâu dành cho iOS, cho phép bạn kết nối trực tiếp với máy tính Windows/Mac/Linux, NAS, ổ mạng, và dịch vụ lưu trữ đám mây ngay trên iPhone hoặc iPad. Đây là giải pháp lý tưởng cho người dùng muốn duyệt, sao chép, chỉnh sửa và quản lý tệp ở nhiều nguồn khác nhau mà vẫn giữ được tốc độ cực nhanh và giao diện trực quan.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/filebrowser-–-document-manager-25.12/filebrowser-–-document-manager-25.12.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/filebrowser-–-document-manager.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 26053196,
+      "type": 1
+    },
+    {
       "name": "Very Little Nightmares",
       "bundleIdentifier": "eu.bandainamcoent.verylittlenightmares",
       "developerName": "hieudz",
