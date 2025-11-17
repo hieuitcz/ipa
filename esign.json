@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "FileBrowser Professional",
+      "bundleIdentifier": "com.stratospherix.filebrowserbiz",
+      "developerName": "hieudz",
+      "version": "25.12",
+      "versionDate": "2025-11-17T00:15:05+00:00",
+      "versionDescription": "FileBrowser Professional là ứng dụng quản lý và truy cập tệp mạnh mẽ dành cho iPhone và iPad, được thiết kế cho người dùng chuyên nghiệp và môi trường doanh nghiệp. Đây là giải pháp hàng đầu để kết nối, duyệt, chỉnh sửa và đồng bộ hóa dữ liệu từ hơn 20 loại máy chủ mạng, thiết bị lưu trữ và dịch vụ đám mây — tất cả trong một ứng dụng duy nhất.",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/filebrowser-professional-25.12/filebrowser-professional-25.12.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/filebrowser-professional.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 30835110,
+      "type": 1
+    },
+    {
       "name": "FileBrowser – Document Manager",
       "bundleIdentifier": "com.stratospherix.filebrowser",
       "developerName": "hieudz",
