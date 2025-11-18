@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "iEditor Pro – Text Code Editor",
+      "bundleIdentifier": "com.comcsoft.iEditorPro",
+      "developerName": "hieudz",
+      "version": "7.0",
+      "versionDate": "2025-11-18T21:44:50+00:00",
+      "versionDescription": "- iEditor Pro là phiên bản nâng cấp của iEditor  \n - ứng dụng hàng đầu để chỉnh sửa file văn bản và mã nguồn trên iPhone và iPad.  \n - Với iEditor Pro, việc tạo, chỉnh sửa và quản lý file trở nên nhanh chóng và hiệu quả hơn bao giờ hết. \n",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/ieditor-pro-–-text-code-editor-7.0/ieditor-pro-–-text-code-editor-7.0.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/ieditor-pro-–-text-code-editor.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 20831372,
+      "type": 1
+    },
+    {
       "name": "Facebook Wolf",
       "bundleIdentifier": "com.facebook.Wolf",
       "developerName": "hieudz",
