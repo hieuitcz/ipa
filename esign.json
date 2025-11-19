@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Sago Mini World: Kids Games",
+      "bundleIdentifier": "com.sagosago.Friends",
+      "developerName": "hieudz",
+      "version": "8.3.1538",
+      "versionDate": "2025-11-19T23:48:10+00:00",
+      "versionDescription": "- Premium Unlock All",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/sago-mini-world-kids-games-v8.3.1538/sago-mini-world-kids-games-v8.3.1538.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/sago-mini-world-kids-games.webp",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 656168573,
+      "type": 1
+    },
+    {
       "name": "SoundCloud: The Music You Love",
       "bundleIdentifier": "com.soundcloud.TouchApp",
       "developerName": "hieudz",
