@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Duolingo - Language Lessons",
+      "bundleIdentifier": "com.duolingo.DuolingoMobile",
+      "developerName": "hieudz",
+      "version": "7.95.1",
+      "versionDate": "2025-11-20T00:13:18+00:00",
+      "versionDescription": "- PREMIUM \n - You can turn on Unlimited Heart in the Subscription Settings (Premium Icon or the Gear Icon) not the Heart Settings Icon \n - NOTE: If you having error while trying to learn language, you must use Sideloadly to sign it and use the same iCloud  account that you using on device to sign for this to work",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/duolingo-language-lessons-v7.95.1/duolingo-language-lessons-v7.95.1.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/duolingo-language-lessons.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 187292614,
+      "type": 1
+    },
+    {
       "name": "Ulike - Define trendy selfie",
       "bundleIdentifier": "com.light.beautyabroad",
       "developerName": "hieudz",
