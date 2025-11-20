@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Picsart AI Photo Editor, Video",
+      "bundleIdentifier": "com.picsart.studio",
+      "developerName": "hieudz",
+      "version": "28.4.3",
+      "versionDate": "2025-11-20T00:15:51+00:00",
+      "versionDescription": "- PREMIUM",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/picsart-ai-photo-editor-video-v28.4.3/picsart-ai-photo-editor-video-v28.4.3.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/picsart-ai-photo-editor-video.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 106262071,
+      "type": 1
+    },
+    {
       "name": "Duolingo - Language Lessons",
       "bundleIdentifier": "com.duolingo.DuolingoMobile",
       "developerName": "hieudz",
