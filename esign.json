@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Ulike - Define trendy selfie",
+      "bundleIdentifier": "com.light.beautyabroad",
+      "developerName": "hieudz",
+      "version": "5.4.1",
+      "versionDate": "2025-11-20T00:03:19+00:00",
+      "versionDescription": "- PREMIUM",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/ulike-define-trendy-selfie-v5.4.1/ulike-define-trendy-selfie-v5.4.1.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/ulike-define-trendy-selfie.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 101326675,
+      "type": 1
+    },
+    {
       "name": "Sago Mini World: Kids Games",
       "bundleIdentifier": "com.sagosago.Friends",
       "developerName": "hieudz",
