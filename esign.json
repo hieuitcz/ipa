@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Shadowrocket",
+      "bundleIdentifier": "com.liguangming.Shadowrocket",
+      "developerName": "hieudz",
+      "version": "2.2.61",
+      "versionDate": "2025-11-20T00:24:35+00:00",
+      "versionDescription": "- FREE PAID APP \n - This IPA only work with TrollStore and Paid Apple Certificate with VPN and CloudKit Entitlement Enabled",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/shadowrocket-v2.2.61/shadowrocket-v2.2.61.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/shadowrocket.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 17967075,
+      "type": 1
+    },
+    {
       "name": "SnapEdit: Photo Editor AI",
       "bundleIdentifier": "com.sfun.snapedit",
       "developerName": "hieudz",
