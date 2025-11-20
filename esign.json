@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Quantumult X",
+      "bundleIdentifier": "com.crossutility.quantumult-x",
+      "developerName": "hieudz",
+      "version": "1.5.0",
+      "versionDate": "2025-11-20T00:27:29+00:00",
+      "versionDescription": "- FREE PAID APP \n - This IPA only work with TrollStore and Paid Apple Certificate with VPN and CloudKit Entitlement Enabled",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/quantumult-x-v1.5.0/quantumult-x-v1.5.0.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/quantumult-x.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 23032294,
+      "type": 1
+    },
+    {
       "name": "Shadowrocket",
       "bundleIdentifier": "com.liguangming.Shadowrocket",
       "developerName": "hieudz",
