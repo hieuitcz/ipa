@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Lightroom Photo & Video Editor",
+      "bundleIdentifier": "com.adobe.lrmobilephone",
+      "developerName": "hieudz",
+      "version": "11.0",
+      "versionDate": "2025-11-21T20:17:52+00:00",
+      "versionDescription": "Hack Features:  \n - PREMIUM",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/lightroom-photo-video-editor-v11.0/lightroom-photo-video-editor-v11.0.ipa",
+      "localizedDescription": "Hack Features:  \n - PREMIUM",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/lightroom-photo-video-editor.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 196052293,
+      "type": 1
+    },
+    {
       "name": "Mimo: Learn Coding/Programming",
       "bundleIdentifier": "com.getmimo.mimo",
       "developerName": "hieudz",
