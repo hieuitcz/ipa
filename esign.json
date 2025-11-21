@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Mimo: Learn Coding/Programming",
+      "bundleIdentifier": "com.getmimo.mimo",
+      "developerName": "hieudz",
+      "version": "9.33.0",
+      "versionDate": "2025-11-21T20:12:10+00:00",
+      "versionDescription": "Hack Features:  \n - PREMIUM",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/mimo-learn-codingprogramming-v9.33.0/mimo-learn-codingprogramming-v9.33.0.ipa",
+      "localizedDescription": "Hack Features:  \n - PREMIUM",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/mimo-learn-codingprogramming.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 146511884,
+      "type": 1
+    },
+    {
       "name": "Bloons TD 6",
       "bundleIdentifier": "com.ninjakiwi.bloonstd6",
       "developerName": "hieudz",
