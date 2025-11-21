@@ -64,21 +64,6 @@
       "type": 1
     },
     {
-      "name": "SnapEdit: Photo Editor AI",
-      "bundleIdentifier": "com.sfun.snapedit",
-      "developerName": "hieudz",
-      "version": "6.0.4",
-      "versionDate": "2025-11-20T00:21:52+00:00",
-      "versionDescription": "- PREMIUM",
-      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/snapedit-photo-editor-ai-v6.0.4/snapedit-photo-editor-ai-v6.0.4.ipa",
-      "localizedDescription": "Modified iOS application",
-      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/snapedit-photo-editor-ai.jpg",
-      "tintColor": "FF6B35",
-      "isLanZouCloud": 0,
-      "size": 132058790,
-      "type": 1
-    },
-    {
       "name": "Picsart AI Photo Editor, Video",
       "bundleIdentifier": "com.picsart.studio",
       "developerName": "hieudz",
