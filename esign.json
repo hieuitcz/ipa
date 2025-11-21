@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Toca Boca World",
+      "bundleIdentifier": "com.tocaboca.tocalifeworld",
+      "developerName": "hieudz",
+      "version": "1.118 ",
+      "versionDate": "2025-11-21T00:28:57+00:00",
+      "versionDescription": "Hack Features: \n  - Everything Purchased",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/toca-boca-world-v1.118 /toca-boca-world-v1.118 .ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/toca-boca-world.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 741510134,
+      "type": 1
+    },
+    {
       "name": "Quantumult X",
       "bundleIdentifier": "com.crossutility.quantumult-x",
       "developerName": "hieudz",
