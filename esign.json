@@ -4,21 +4,6 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
-      "name": "Toca Boca World   ",
-      "bundleIdentifier": "1.119  ",
-      "developerName": "hieudz",
-      "version": "com.tocaboca.tocalifeworld",
-      "versionDate": "2025-11-21T17:51:06+00:00",
-      "versionDescription": "Hack Features: \n  - Everything Purchased",
-      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/toca-boca-world-vcom.tocaboca.tocalifeworld/toca-boca-world-vcom.tocaboca.tocalifeworld.ipa",
-      "localizedDescription": "Hack Features: \n  - Everything Purchased",
-      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/toca-boca-world.jpg",
-      "tintColor": "FF6B35",
-      "isLanZouCloud": 0,
-      "size": 741510134,
-      "type": 1
-    },
-    {
       "name": "Toca Boca World",
       "bundleIdentifier": "com.tocaboca.tocalifeworld",
       "developerName": "hieudz",
