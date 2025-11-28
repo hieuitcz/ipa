@@ -454,18 +454,18 @@
       "type": 1
     },
     {
-      "name": "Spotify Music and Podcasts",
+      "name": "Spotify: Music and Podcasts",
       "bundleIdentifier": "com.spotify.client",
       "developerName": "hieudz",
-      "version": "9.0.94",
-      "versionDate": "2025-11-14T01:52:38+00:00",
-      "versionDescription": "Lưu ý: \n- Nếu tài khoản của bạn đã từng mua Spotify Premium, hãy tạo 1 tài khoản khác để sử dụng.",
-      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/spotify-music-and-podcasts-9.0.94/spotify.music.and.podcasts-9.0.94.ipa",
-      "localizedDescription": "Features:\n- Remove ads\n- Remove stories banner\n- Remove 'People you may know'\n- Disable typing indicator\n- Read messages anonymously\n- Watch stories anonymously\n- Loop stories\n- Download stories\n- Remove 'Stories' tab\n- Remove 'Friends' tab\n- Remove AI circle\n- Require call confirmation",
-      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/spotify.jpg",
+      "version": "9.0.96",
+      "versionDate": "2025-11-28T02:38:13+00:00",
+      "versionDescription": "Lưu ý: \n- Nếu tài khoản của bạn đã từng mua Spotify Premium, hãy tạo 1 tài khoản khác để sử dụng. \n - Features:\n- Remove ads\n- Remove stories banner\n- Remove 'People you may know'\n- Disable typing indicator\n- Read messages anonymously\n- Watch stories anonymously\n- Loop stories\n- Download stories\n- Remove 'Stories' tab\n- Remove 'Friends' tab\n- Remove AI circle\n- Require call confirmation",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/spotify-music-and-podcasts-v9.0.96/spotify-music-and-podcasts-v9.0.96.ipa",
+      "localizedDescription": "Lưu ý: \n- Nếu tài khoản của bạn đã từng mua Spotify Premium, hãy tạo 1 tài khoản khác để sử dụng. \n - Features:\n- Remove ads\n- Remove stories banner\n- Remove 'People you may know'\n- Disable typing indicator\n- Read messages anonymously\n- Watch stories anonymously\n- Loop stories\n- Download stories\n- Remove 'Stories' tab\n- Remove 'Friends' tab\n- Remove AI circle\n- Require call confirmation",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/spotify-music-and-podcasts.jpg",
       "tintColor": "FF6B35",
       "isLanZouCloud": 0,
-      "size": 117871865,
+      "size": 117939482,
       "type": 1
     },
     {
