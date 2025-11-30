@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Plants vs. Zombies™",
+      "bundleIdentifier": "com.ea.pvzfree.bv",
+      "developerName": "hieudz",
+      "version": "3.12.0",
+      "versionDate": "2025-11-30T02:59:39+00:00",
+      "versionDescription": "Hack Features:   \n - Infinite Sun   \n - Infinite Fertilizer, BugSpray, and Chocolate   \n - Infinite Coins   \n - Infinite Plants Life   \n - No Cooldown   \n    \n Author: https://iosgods.com/profile/37846-asianqueen/ & AnonyN   \n    \n Complete tutorial before using any hacked features or you will stuck forever",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/plants-vs-zombies-v3.12.0/plants-vs-zombies-v3.12.0.ipa",
+      "localizedDescription": "Hack Features:   \n - Infinite Sun   \n - Infinite Fertilizer, BugSpray, and Chocolate   \n - Infinite Coins   \n - Infinite Plants Life   \n - No Cooldown   \n    \n Author: https://iosgods.com/profile/37846-asianqueen/ & AnonyN   \n    \n Complete tutorial before using any hacked features or you will stuck forever",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/plants-vs-zombies.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 117684686,
+      "type": 1
+    },
+    {
       "name": "Bloons TD 6 NETFLIX Hack",
       "bundleIdentifier": "com.netflix.NGP.BloonsTDSix",
       "developerName": "hieudz",
