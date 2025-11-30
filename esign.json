@@ -79,18 +79,18 @@
       "type": 1
     },
     {
-      "name": "Bloons TD 6",
+      "name": "Bloons TD 6+",
       "bundleIdentifier": "com.ninjakiwi.bloonstd6",
       "developerName": "hieudz",
-      "version": "51.2",
-      "versionDate": "2025-11-21T19:26:19+00:00",
-      "versionDescription": "- Bloons TD 6 là một trò chơi chiến lược phòng thủ tháp được phát triển bởi Ninja Kiwi và phát hành trên nhiều nền tảng, bao gồm cả iOS. \n - Trò chơi là phiên bản kế tiếp của Bloons TD 5 và nhanh chóng trở thành một trong những tựa game chiến lược phòng thủ tháp được yêu thích nhất trên nền tảng di động.",
-      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/bloons-td-6-v51.2/bloons-td-6-v51.2.ipa",
-      "localizedDescription": "- Bloons TD 6 là một trò chơi chiến lược phòng thủ tháp được phát triển bởi Ninja Kiwi và phát hành trên nhiều nền tảng, bao gồm cả iOS. \n - Trò chơi là phiên bản kế tiếp của Bloons TD 5 và nhanh chóng trở thành một trong những tựa game chiến lược phòng thủ tháp được yêu thích nhất trên nền tảng di động.",
+      "version": "51.1",
+      "versionDate": "2025-11-30T02:46:15+00:00",
+      "versionDescription": "Hack Features:   \n - God Mode   \n - Fast Fire Rate   \n - No Regen Bloons   \n - Clear Bloons   \n - Auto Win   \n - Set Round   \n - Restart Match   \n - Add Cash   \n - Set Level   \n - Unlimited Daily Chest   \n - Add Trophies (‼️Use at your own risk‼️)   \n - Infinite Ability -new   \n - Place Tower Anywhere   \n - Infinite Heroes   \n - Multiple God Towers   \n - Infinite Cash   \n - Infinite Monkey Money   \n - Infinite Powers   \n - Unlock All Heroes   \n - Unlock All Knowledges   \n - Unlock All Towers   \n - Unlock All Upgrades   \n - Can Unlock Map (Click any locked map)   \n - Bypass Tutorial (Place one tower and quit the game)",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/bloons-td-6-v51.1/bloons-td-6-v51.1.ipa",
+      "localizedDescription": "Hack Features:   \n - God Mode   \n - Fast Fire Rate   \n - No Regen Bloons   \n - Clear Bloons   \n - Auto Win   \n - Set Round   \n - Restart Match   \n - Add Cash   \n - Set Level   \n - Unlimited Daily Chest   \n - Add Trophies (‼️Use at your own risk‼️)   \n - Infinite Ability -new   \n - Place Tower Anywhere   \n - Infinite Heroes   \n - Multiple God Towers   \n - Infinite Cash   \n - Infinite Monkey Money   \n - Infinite Powers   \n - Unlock All Heroes   \n - Unlock All Knowledges   \n - Unlock All Towers   \n - Unlock All Upgrades   \n - Can Unlock Map (Click any locked map)   \n - Bypass Tutorial (Place one tower and quit the game)",
       "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/bloons-td-6.jpg",
       "tintColor": "FF6B35",
       "isLanZouCloud": 0,
-      "size": 182650020,
+      "size": 83919872,
       "type": 1
     },
     {
