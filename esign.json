@@ -34,21 +34,6 @@
       "type": 1
     },
     {
-      "name": "Lightroom Photo & Video Editor",
-      "bundleIdentifier": "com.adobe.lrmobilephone",
-      "developerName": "hieudz",
-      "version": "11.0",
-      "versionDate": "2025-11-21T20:17:52+00:00",
-      "versionDescription": "Hack Features:  \n - PREMIUM",
-      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/lightroom-photo-video-editor-v11.0/lightroom-photo-video-editor-v11.0.ipa",
-      "localizedDescription": "Hack Features:  \n - PREMIUM",
-      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/lightroom-photo-video-editor.jpg",
-      "tintColor": "FF6B35",
-      "isLanZouCloud": 0,
-      "size": 196052293,
-      "type": 1
-    },
-    {
       "name": "Mimo: Learn Coding/Programming",
       "bundleIdentifier": "com.getmimo.mimo",
       "developerName": "hieudz",
@@ -124,21 +109,6 @@
       "type": 1
     },
     {
-      "name": "Picsart AI Photo Editor, Video",
-      "bundleIdentifier": "com.picsart.studio",
-      "developerName": "hieudz",
-      "version": "28.4.3",
-      "versionDate": "2025-11-20T00:15:51+00:00",
-      "versionDescription": "- PREMIUM",
-      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/picsart-ai-photo-editor-video-v28.4.3/picsart-ai-photo-editor-video-v28.4.3.ipa",
-      "localizedDescription": "Modified iOS application",
-      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/picsart-ai-photo-editor-video.jpg",
-      "tintColor": "FF6B35",
-      "isLanZouCloud": 0,
-      "size": 106262071,
-      "type": 1
-    },
-    {
       "name": "Duolingo - Language Lessons",
       "bundleIdentifier": "com.duolingo.DuolingoMobile",
       "developerName": "hieudz",
@@ -151,21 +121,6 @@
       "tintColor": "FF6B35",
       "isLanZouCloud": 0,
       "size": 187292614,
-      "type": 1
-    },
-    {
-      "name": "Ulike - Define trendy selfie",
-      "bundleIdentifier": "com.light.beautyabroad",
-      "developerName": "hieudz",
-      "version": "5.4.1",
-      "versionDate": "2025-11-20T00:03:19+00:00",
-      "versionDescription": "- PREMIUM",
-      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/ulike-define-trendy-selfie-v5.4.1/ulike-define-trendy-selfie-v5.4.1.ipa",
-      "localizedDescription": "Modified iOS application",
-      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/ulike-define-trendy-selfie.jpg",
-      "tintColor": "FF6B35",
-      "isLanZouCloud": 0,
-      "size": 101326675,
       "type": 1
     },
     {
