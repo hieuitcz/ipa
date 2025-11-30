@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Bloons TD 6 China",
+      "bundleIdentifier": "com.xd.bloonstd",
+      "developerName": "hieudz",
+      "version": "51.2",
+      "versionDate": "2025-11-30T02:42:51+00:00",
+      "versionDescription": "Hack Features:   \n - Never Die   \n - Cash    \n - Monkey Money   \n - Consumes   \n - All Heroes Unlock   \n - All Towers Unlock   \n - All Upgrades Unlock   \n - All Knowledges Unlock",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/bloons-td-6-china-v51.2/bloons-td-6-china-v51.2.ipa",
+      "localizedDescription": "Hack Features:   \n - Never Die   \n - Cash    \n - Monkey Money   \n - Consumes   \n - All Heroes Unlock   \n - All Towers Unlock   \n - All Upgrades Unlock   \n - All Knowledges Unlock",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/bloons-td-6-china.jpg",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 1465136375,
+      "type": 1
+    },
+    {
       "name": "Hot Wheels Unlimited",
       "bundleIdentifier": "com.budgestudios.HotWheelsUnlimited",
       "developerName": "hieudz",
