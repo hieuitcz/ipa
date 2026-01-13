@@ -4,6 +4,21 @@
   "sourceURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/esign.json",
   "apps": [
     {
+      "name": "Expense Tracker: Money Note",
+      "bundleIdentifier": "com.money.note",
+      "developerName": "hieudz",
+      "version": "5.0.0",
+      "versionDate": "2026-01-13T19:00:28+00:00",
+      "versionDescription": "Latest version",
+      "downloadURL": "https://github.com/hieuitcz/ipa/releases/download/expense-tracker-money-note-v5.0.0/expense-tracker-money-note-v5.0.0.ipa",
+      "localizedDescription": "Modified iOS application",
+      "iconURL": "https://raw.githubusercontent.com/hieuitcz/ipa/main/icons/expense-tracker-money-note.webp",
+      "tintColor": "FF6B35",
+      "isLanZouCloud": 0,
+      "size": 54816487,
+      "type": 1
+    },
+    {
       "name": "Plants vs. Zombies™",
       "bundleIdentifier": "com.ea.pvzfree.bv",
       "developerName": "hieudz",
